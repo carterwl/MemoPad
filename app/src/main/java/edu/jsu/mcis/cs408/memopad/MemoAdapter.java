@@ -10,22 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
+class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
 
-    private List<Memo> memoList;
+    private final MainActivity activity;
+    private final List<Memo> memoList;
 
-    public MemoAdapter(List<Memo> memoList) {
+    public MemoAdapter(MainActivity activity, List<Memo> memoList) {
+        super();
+        this.activity = activity;
         this.memoList = memoList;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView memoLabel;
-
-        public ViewHolder(View view) {
-            super(view);
-            memoLabel = view.findViewById(R.id.memoLabel);
-        }
+    public Memo getItem(int position) {
+        return memoList.get(position);
     }
 
     @NonNull
@@ -34,6 +31,8 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.memo_item, parent, false);
+
+        view.setOnClickListener(activity.getItemClick());
 
         return new ViewHolder(view);
     }
@@ -46,5 +45,15 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return memoList.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView memoLabel;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            memoLabel = itemView.findViewById(R.id.memoLabel);
+        }
     }
 }
